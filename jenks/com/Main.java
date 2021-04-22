@@ -3,7 +3,7 @@ package CIS210M.jenks.com;
 4.21.2021
 getHired game to show employers what I know how to do.
 Classes are set up to explicitly try to show a Java capability
-I will update dates on classes as I write more code update that class
+I will update dates on classes as I write more code and update that class
 otherwise dates are accurate for the specific day I wrote that code*/
 
 
