@@ -1,9 +1,10 @@
 package CIS210M.jenks.com;
 /*Matthew Jenks
-4.21.2021
+4.22.2021
 getHired game to show employers what I know how to do.
 Each class will attempt to show a specific area of Java
-This class will run most of the code, keeping Main clean */
+This class will run most of the code, keeping Main clean
+update adds experience, treasure generation and death that breaks the main loop, also shows method overloading*/
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,8 +28,9 @@ public class Gameplay {
         you must go back and create one without parameters if you wish to use the class in this way. */
         Character userPlayer = new Character();
         setMovementOptions(userPlayer.movementList);
+        Inventory userInventory = new Inventory(); //constructor creates a list of lists for treasure, initializes user inventory
         this.location = movement();
-        while(true) { //No way to break this loop yet, game will be updated when I find the right event/create a user option
+        while(true) { 
             if (location.equals("Town")) {
                 System.out.println("Welcome to town");
                 System.out.println("Would you like to buy or sell something?");
@@ -44,6 +46,10 @@ public class Gameplay {
                  */
                 Character evilCreature = new Character("Warrior", userPlayer.getLevel(), (rand.nextInt(4)+ 1));
                 fight(userPlayer.getAttributes(), evilCreature.getAttributes(), userPlayer, evilCreature);
+                userInventory.generateTreasure(evilCreature);
+                if(!checkHealth(userPlayer)){
+                    break;
+                }
                 this.location = movement();
 
             } else { //finally home, else is used as a bad user input safeguard. If the input is bad the player will simply go home
@@ -101,14 +107,14 @@ public class Gameplay {
                 evilCreature.takeDamage(userStrength + x - creatureStrength);
                 System.out.println("You have dealt " + (userStrength + x - creatureStrength) + " damage!");
                 System.out.println("The creature has " + evilCreature.takeDamage(0) + " health left!");
-                if(checkHealth(userPlayer, evilCreature) == false){ //breaks the loop if someone dies
+                if(!checkHealth(userPlayer, evilCreature)){ //breaks the loop if someone dies
                     break;
                 }
             } else if ((userStrength + x) < creatureStrength) {
                 userPlayer.takeDamage(creatureStrength - userStrength - x);
                 System.out.println("The creature has dealt " + (creatureStrength - userStrength - x) + " damage!");
                 System.out.println("You have " + userPlayer.takeDamage(0) + "health left!");
-                if(checkHealth(userPlayer, evilCreature) == false){
+                if(!checkHealth(userPlayer, evilCreature)){
                     break;
                 }
             }
@@ -116,7 +122,7 @@ public class Gameplay {
                 evilCreature.takeDamage(userIntellect + x - creatureIntellect);
                 System.out.println("You have dealt " + (userIntellect + x - creatureIntellect) + " damage!");
                 System.out.println("The creature has " + evilCreature.takeDamage(0) + " health left!");
-                if(checkHealth(userPlayer, evilCreature) == false){
+                if(!checkHealth(userPlayer, evilCreature)){
                     break;
                 }
             }
@@ -124,7 +130,7 @@ public class Gameplay {
                 userPlayer.takeDamage(creatureIntellect - userIntellect - x);
                 System.out.println("The creature has dealt " + (creatureIntellect - userIntellect - x) + " damage!");
                 System.out.println("You have " + userPlayer.takeDamage(0) + "health left!");
-                if(checkHealth(userPlayer, evilCreature) == false){
+                if(!checkHealth(userPlayer, evilCreature)){
                     break;
                 }
             }
@@ -132,7 +138,7 @@ public class Gameplay {
                 evilCreature.takeDamage(userAgility + x - creatureAgility);
                 System.out.println("You have dealt " + (userAgility + x - creatureAgility) + " damage!");
                 System.out.println("The creature has " + evilCreature.takeDamage(0) + " health left!");
-                if(checkHealth(userPlayer, evilCreature) == false){
+                if(!checkHealth(userPlayer, evilCreature)){
                     break;
                 }
             }
@@ -140,7 +146,7 @@ public class Gameplay {
                 userPlayer.takeDamage(creatureAgility - userAgility - x);
                 System.out.println("The creature has dealt " + (creatureAgility - userAgility - x) + " damage!");
                 System.out.println("You have " + userPlayer.takeDamage(0) + "health left!");
-                if(checkHealth(userPlayer, evilCreature) == false){
+                if(!checkHealth(userPlayer, evilCreature)){
                     break;
                 }
             }
@@ -151,12 +157,26 @@ public class Gameplay {
           even after someone died. This also provides a natural place to call treasure functions */
             if (evilCreature.takeDamage(0) < 1) { //take damage was not initially intended to return health values, but it made sense
                 System.out.println("You have killed the creature");
+                int experience = 0;
+                for( Object entry : evilCreature.getAttributes()){ //provides user with experience based off creatures highest attribute
+                    if(Integer.valueOf(String.valueOf(entry)) > experience){
+                        experience = Integer.valueOf(String.valueOf(entry));
+                    }
+                }
+                System.out.println("You have gained " + experience + " experience");
+                userPlayer.gainExperience(experience);
                 return false;
             } else if (userPlayer.takeDamage(0) < 1) {
                 System.out.println("You have died");
                 return false;
             }
             return true;
+        }
+        public boolean checkHealth(Character playerCharacter){ //method overloading, this one is specifically to check if the player is dead outside of fight
+        if(playerCharacter.takeDamage(0) < 1) {
+            return false;
+        }
+        return true;
         }
     }
 
