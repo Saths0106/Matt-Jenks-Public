@@ -1,9 +1,10 @@
 package CIS210M.jenks.com;
 /*Matthew Jenks
-4.21.2021
+4.22.2021
 getHired game to show employers what I know how to do.
 This one is intended to show multiple constructors as constructor overloading
-and encapsulation*/
+and encapsulation
+simply updated to set creature level for loot rarity calculation*/
 
 
 import java.io.BufferedReader;
@@ -57,6 +58,7 @@ public class Character {
         this.characterClass = type;
         String attributeString = Classes.returnValues(type);
         List attributeList = Arrays.asList(attributeString.split(","));
+        this.level = level;
         //follows in the footsteps of the other constructor to get default enum values, but divides them and rounds for an attempt at balancing
         this.strength = round((Integer.parseInt((String) attributeList.get(0)) * level * amount)/3);
         this.agility= round((Integer.parseInt((String) attributeList.get(1)) * level * amount)/3);
