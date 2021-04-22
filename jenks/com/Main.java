@@ -1,10 +1,14 @@
 package CIS210M.jenks.com;
 /*Matthew Jenks
-4.21.2021
+4.22.2021
 getHired game to show employers what I know how to do.
 Classes are set up to explicitly try to show a Java capability
 I will update dates on classes as I write more code and update that class
-otherwise dates are accurate for the specific day I wrote that code*/
+otherwise dates are accurate for the specific day I wrote that code
+Important to note too - I work full time and I'm a full time college student. 
+I am also doing this game without psuedocode or a flow chart, I just wanted to put something out there
+updated comments on this class
+*/
 
 
 import java.io.IOException;
