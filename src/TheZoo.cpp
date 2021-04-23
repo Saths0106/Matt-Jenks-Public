@@ -3,6 +3,9 @@
  *
  *  Created on: Dec 13, 2020
  *      Author: Matthew Jenks
+ 
+ Edit 4/23/2021 - I did not create the Java part for this program, so I did not upload it to this file. I also did not create GenerateData(), these were given to us for the assignment
+ Java code is basically AddAnimal() and SaveDataToFile() combined 
  */
 #include <iostream>
 #include <iterator>
