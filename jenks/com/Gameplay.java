@@ -3,7 +3,7 @@ package CIS210M.jenks.com;
 4.23.2021
 getHired game to show employers what I know how to do.
 Each class will attempt to show a specific area of Java
-This class will run most of the code, keeping Main clean
+This class will run most of the code
 Clean up code to work with GUI*/
 
 import java.io.BufferedReader;
