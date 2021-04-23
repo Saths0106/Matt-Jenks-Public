@@ -4,7 +4,7 @@ package CIS210M.jenks.com;
 getHired game to show employers what I know how to do.
 This one is intended to show multiple constructors as constructor overloading
 and encapsulation
-reformated to work with new JavaFX gui*/
+reformatted to work with new JavaFX gui*/
 
 
 import java.util.Arrays;
@@ -34,9 +34,6 @@ public class Character {
         this.intellect = Integer.parseInt((String) attributeList.get(2));
         this.healthPoints = Integer.parseInt((String) attributeList.get(3));
         this.movementList = attributeList.subList(4, 7);
-        System.out.println("Your name is " + name + " Your class is " + characterClass);
-        System.out.println("And your attributes are as follows");
-        System.out.println("Strength " + strength +  " Agility " + agility + " Intellect " +  intellect + " Health " + healthPoints);
     }
     Character(String type, int level, int amount){ //this constructor is used to create creatures to fight
         this.characterClass = type;
@@ -76,6 +73,10 @@ public class Character {
     }
     public List getAttributes(){ //gets player and monster attributes as a list
         return Arrays.asList(strength, agility, intellect);
+    }
+    public String getAttributesAsString(){
+        String attributesAsString = String.format("Strength %d Agility %d Intellect %d Health %d",strength,agility ,intellect, healthPoints);
+        return attributesAsString;
     }
     public int takeDamage(int damage){ //changes hp when player or monster takes damage. Also works to get hp level back, if you send 0 as parameter
         healthPoints -= damage;
