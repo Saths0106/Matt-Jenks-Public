@@ -1,10 +1,10 @@
 package CIS210M.jenks.com;
 /*Matthew Jenks
-4.22.2021
+4.23.2021
 getHired game to show employers what I know how to do.
 Each class will attempt to show a specific area of Java
 This class will run most of the code, keeping Main clean
-update adds experience, treasure generation and death that breaks the main loop, also shows method overloading*/
+Clean up code to work with GUI*/
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,19 +18,12 @@ public class Gameplay {
     private String location = "Town";
 
     //build a constructor to initialize the game. This constructor will be called once, and run most of the important functions of the game
-    Gameplay() throws IOException {
-        System.out.println("Welcome to my game. This is intended to showcase what I've learnt in Java to potential employees.");
-        System.out.println("The game is a simple text based role playing game");
-        System.out.println("Each screen will give you a set of options. Please follow the instructions");
-        System.out.println("First create your player character");
-        /*user player uses the first constructor, with no parameters
-        Classes automatically gain a no parameter constructor, however if you create one with parameters
-        you must go back and create one without parameters if you wish to use the class in this way. */
-        Character userPlayer = new Character();
+    Gameplay(String userName, String className) throws IOException {
+        Character userPlayer = new Character(userName, className);
         setMovementOptions(userPlayer.movementList);
         Inventory userInventory = new Inventory(); //constructor creates a list of lists for treasure, initializes user inventory
         this.location = movement();
-        while(true) { 
+        while(true) {
             if (location.equals("Town")) {
                 System.out.println("Welcome to town");
                 System.out.println("Would you like to buy or sell something?");
