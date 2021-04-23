@@ -47,6 +47,7 @@ public class Main extends Application  {
         layout.setAlignment(label1, Pos.TOP_CENTER);
         layout.getChildren().addAll(label1, startButton, textBox);
         startScene = new Scene(layout, 500, 500);
+        //these are examples of extremely helpful lambda (e->)
         startButton.addEventHandler(ActionEvent.ACTION, e -> primaryStage.setScene(mainScene)); //addEventHandler allows for multiple events
         startButton.addEventHandler(ActionEvent.ACTION , e -> { //need to update classes to move information to mainScene, not IDE console 
             try {
