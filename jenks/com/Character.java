@@ -1,15 +1,12 @@
 package CIS210M.jenks.com;
 /*Matthew Jenks
-4.22.2021
+4.23.2021
 getHired game to show employers what I know how to do.
 This one is intended to show multiple constructors as constructor overloading
 and encapsulation
-simply updated to set creature level for loot rarity calculation*/
+reformated to work with new JavaFX gui*/
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,34 +22,21 @@ public class Character {
     private int healthPoints;
     private int experience = 0;
     private int level = 1;
-    Character() throws IOException { //this is the constructor for new user character
+    Character(String userName, String userClass)  { //this is the constructor for new user character
         //creates user character
-        BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Please enter your name");
-        this.name = userInput.readLine();
-        System.out.println("Please pick a class from the options");
-        for(Classes x : Classes.values()){ //for loop to print all the values of enum
-            System.out.println(x);
-        }
-        while(true) { //while loops makes sure user enters correct information
-            String input = userInput.readLine().toUpperCase(); //makes it easier, user just has to spell correctly
-            if (input.equals("CLERIC") || input.equals("MAGE") || input.equals("WARRIOR")) {
-                this.characterClass = input; //changes character class to user input
-                String attributeString = Classes.returnValues(input); //gets information from enum about starting values for character
-                List attributeList = Arrays.asList(attributeString.split(","));
-                this.strength = Integer.parseInt((String) attributeList.get(0));
-                this.agility= Integer.parseInt((String) attributeList.get(1));
-                this.intellect = Integer.parseInt((String) attributeList.get(2));
-                this.healthPoints = Integer.parseInt((String) attributeList.get(3));
-                this.movementList = attributeList.subList(4, 7);
-                System.out.println("Your name is " + name + " Your class is " + characterClass);
-                System.out.println("And your attributes are as follows");
-                System.out.println("Strength " + strength +  " Agility " + agility + " Intellect " +  intellect + " Health " + healthPoints);
-                break;
-            } else {
-                System.out.println("Please enter a correct class");
-            }
-        }
+        this.name = userName;
+        System.out.println(name);
+        this.characterClass = userClass.toUpperCase(); //changes character class to user input
+        String attributeString = Classes.returnValues(characterClass); //gets information from enum about starting values for character
+        List attributeList = Arrays.asList(attributeString.split(","));
+        this.strength = Integer.parseInt((String) attributeList.get(0));
+        this.agility= Integer.parseInt((String) attributeList.get(1));
+        this.intellect = Integer.parseInt((String) attributeList.get(2));
+        this.healthPoints = Integer.parseInt((String) attributeList.get(3));
+        this.movementList = attributeList.subList(4, 7);
+        System.out.println("Your name is " + name + " Your class is " + characterClass);
+        System.out.println("And your attributes are as follows");
+        System.out.println("Strength " + strength +  " Agility " + agility + " Intellect " +  intellect + " Health " + healthPoints);
     }
     Character(String type, int level, int amount){ //this constructor is used to create creatures to fight
         this.characterClass = type;
