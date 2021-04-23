@@ -15,6 +15,7 @@ Also shows use of lambda
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -26,29 +27,36 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 
 public class Main extends Application  {
-
-    private Button startButton;
     private Scene startScene, mainScene;
 
     public static void main(String[] args) throws IOException {
         launch(args);
-	//new Gameplay();
-
-
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // I'm learning JavaFX, never used this. I've used Jframe, but this is tutorial stuff right now
+        // I'm learning JavaFX, never used this. I've used Jframe, but this is learning as I go right now
         primaryStage.setTitle("Luna's Realm");
-        startButton = new Button();
-        Label label1 = new Label("Welcome to Luna's Realm!");
-        startButton.setText("Start");
+        Button startButton = new Button();
+        Label label1 = new Label("Welcome to Luna's Realm! Start by building your character");
+        startButton.setText("WARRIOR");
         StackPane layout = new StackPane();
+        TextField textBox = new TextField();
+        textBox.setText("Please enter your username");
+        layout.setAlignment(textBox, Pos.BOTTOM_CENTER);
         layout.setAlignment(label1, Pos.TOP_CENTER);
-        layout.getChildren().addAll(label1, startButton);
+        layout.getChildren().addAll(label1, startButton, textBox);
         startScene = new Scene(layout, 500, 500);
-        startButton.setOnAction(e -> primaryStage.setScene(mainScene));
+        startButton.addEventHandler(ActionEvent.ACTION, e -> primaryStage.setScene(mainScene)); //addEventHandler allows for multiple events
+        startButton.addEventHandler(ActionEvent.ACTION , e -> { //need to update classes to move information to mainScene, not IDE console 
+            try {
+                new Gameplay(textBox.getText(), startButton.getText());
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
         primaryStage.setScene(startScene);
         primaryStage.show();
 
@@ -58,8 +66,6 @@ public class Main extends Application  {
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(button2);
         mainScene = new Scene(layout2, 500, 500);
-
-
 
     }
 }
