@@ -6,6 +6,14 @@ Each class will attempt to show a specific area of Java
 This class will run most of the code
 Clean up code to work with GUI*/
 
+
+
+import javafx.geometry.Pos;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,15 +22,18 @@ import java.util.List;
 import java.util.Random;
 
 public class Gameplay {
+
+    private static Character userPlayer;
     private List<String> movementOptions = new ArrayList<String>();
     private String location = "Town";
 
+
     //build a constructor to initialize the game. This constructor will be called once, and run most of the important functions of the game
     Gameplay(String userName, String className) throws IOException {
-        Character userPlayer = new Character(userName, className);
+        userPlayer = new Character(userName, className);
         setMovementOptions(userPlayer.movementList);
         Inventory userInventory = new Inventory(); //constructor creates a list of lists for treasure, initializes user inventory
-        this.location = movement();
+        /*this.location = movement();
         while(true) {
             if (location.equals("Town")) {
                 System.out.println("Welcome to town");
@@ -37,7 +48,7 @@ public class Gameplay {
                 rand is set to get between 1 and 5 evil creatures for the player to fight, of the players level.
                 This may need further balancing, I could see monster numbers getting out of hand
                  */
-                Character evilCreature = new Character("Warrior", userPlayer.getLevel(), (rand.nextInt(4)+ 1));
+               /* Character evilCreature = new Character("Warrior", userPlayer.getLevel(), (rand.nextInt(4)+ 1));
                 fight(userPlayer.getAttributes(), evilCreature.getAttributes(), userPlayer, evilCreature);
                 userInventory.generateTreasure(evilCreature);
                 if(!checkHealth(userPlayer)){
@@ -57,7 +68,7 @@ public class Gameplay {
                 this.location = movement();
             }
 
-        }
+        } */
 
 
     }
@@ -171,6 +182,15 @@ public class Gameplay {
         }
         return true;
         }
+        public static StackPane populateSecondScreen() throws NullPointerException{
+        StackPane mainLayout = new StackPane();
+        Text playerAttributes = new Text();
+        playerAttributes.setText(userPlayer.getAttributesAsString());
+        mainLayout.setAlignment(playerAttributes, Pos.TOP_LEFT);
+
+        mainLayout.getChildren().addAll(playerAttributes);
+        return(mainLayout);
+      }
     }
 
 
