@@ -13,6 +13,9 @@ Also shows use of lambda
 
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,8 +28,7 @@ import javafx.scene.layout.StackPane;
 public class Main extends Application  {
 
     private Button startButton;
-    private Scene startScene;
-    private Scene mainScene;
+    private Scene startScene, mainScene;
 
     public static void main(String[] args) throws IOException {
         launch(args);
@@ -37,21 +39,26 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // I'm learning JavaFX, never used this. I've used Jframe, but this is tutorial stuff right now
         primaryStage.setTitle("Luna's Realm");
         startButton = new Button();
+        Label label1 = new Label("Welcome to Luna's Realm!");
         startButton.setText("Start");
         StackPane layout = new StackPane();
-        layout.getChildren().add(startButton);
+        layout.setAlignment(label1, Pos.TOP_CENTER);
+        layout.getChildren().addAll(label1, startButton);
         startScene = new Scene(layout, 500, 500);
-        startButton.setOnAction(e -> {
-            try {
-                new Gameplay();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
+        startButton.setOnAction(e -> primaryStage.setScene(mainScene));
         primaryStage.setScene(startScene);
         primaryStage.show();
+
+        Button button2 = new Button();
+        button2.setText("Second button");
+
+        StackPane layout2 = new StackPane();
+        layout2.getChildren().add(button2);
+        mainScene = new Scene(layout2, 500, 500);
+
 
 
     }
