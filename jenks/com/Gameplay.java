@@ -1,45 +1,53 @@
 package CIS210M.jenks.com;
 /*Matthew Jenks
-4.23.2021
+4.27.2021
 getHired game to show employers what I know how to do.
 Each class will attempt to show a specific area of Java
 This class will run most of the code
-Clean up code to work with GUI*/
+Heavily updated code to work with GUI
+We are getting there, I intend to finish this into a fully working text based game
+by next sunday at the latest*/
 
 
 
 import javafx.geometry.Pos;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Gameplay {
 
     private static Character userPlayer;
     private List<String> movementOptions = new ArrayList<String>();
     private String location = "Town";
+    private TextArea gamePlayField = new TextArea();
+    private static StackPane mainLayout = new StackPane();
+    private TextField userInput = new TextField();
 
 
     //build a constructor to initialize the game. This constructor will be called once, and run most of the important functions of the game
     Gameplay(String userName, String className) throws IOException {
         userPlayer = new Character(userName, className);
         setMovementOptions(userPlayer.movementList);
+        gamePlayField.setEditable(false);
+        gamePlayField.setStyle("-fx-padding: 100 10 50 10");
+        userInput.setPrefColumnCount(15);
+        mainLayout.setAlignment(userInput, Pos.BOTTOM_CENTER);
+        mainLayout.getChildren().addAll(gamePlayField , userInput);
         Inventory userInventory = new Inventory(); //constructor creates a list of lists for treasure, initializes user inventory
-        /*this.location = movement();
-        while(true) {
-            if (location.equals("Town")) {
-                System.out.println("Welcome to town");
-                System.out.println("Would you like to buy or sell something?");
-                //Town will allow the player to buy, sell, and craft treasure. Also intended to contain quests
-                this.location = movement();
+        movement();
+        /*while(true) {
+
             } else if (location.equals("Adventure")) { //Adventure is where the player fights monsters. Currently only warrior type monsters are set up
                 System.out.println("Be careful, the woods are full of monsters");
                 Random rand = new Random();
@@ -48,13 +56,13 @@ public class Gameplay {
                 rand is set to get between 1 and 5 evil creatures for the player to fight, of the players level.
                 This may need further balancing, I could see monster numbers getting out of hand
                  */
-               /* Character evilCreature = new Character("Warrior", userPlayer.getLevel(), (rand.nextInt(4)+ 1));
+                /*Character evilCreature = new Character("Warrior", userPlayer.getLevel(), (rand.nextInt(4)+ 1));
                 fight(userPlayer.getAttributes(), evilCreature.getAttributes(), userPlayer, evilCreature);
                 userInventory.generateTreasure(evilCreature);
                 if(!checkHealth(userPlayer)){
                     break;
                 }
-                this.location = movement();
+                movement();
 
             } else { //finally home, else is used as a bad user input safeguard. If the input is bad the player will simply go home
                 //home allows the user to heal and levelup if they have the required experience. Experience will be gained from fights
@@ -65,12 +73,25 @@ public class Gameplay {
                         userPlayer.levelUp(2);
                     }
                 }
-                this.location = movement();
+                movement();
             }
 
         } */
 
 
+    }
+    //press enter to change screens -- need to add that to user instructions. Also, using Lambda a lot more.
+    public void locationEvents(String location){
+        if (location.equals("Town")) {
+            gamePlayField.setText("Welcome to town \r\n" + "Would you like to buy something?");
+            //Town will allow the player to buy, sell, and craft treasure. Also intended to contain quests
+            userInput.setOnKeyPressed(keyEvent -> {
+                if(keyEvent.getCode() == KeyCode.ENTER) {
+                    movement();
+                }
+            });
+
+        }
     }
 
 
@@ -78,21 +99,14 @@ public class Gameplay {
         this.movementOptions = movementOptions; //This sets the movement options. They aren't really different for this game, but I might make changes later
     }
 
-    public String movement() throws IOException { //movement function, movement options are contained in enum
-        System.out.println("Where would you like to move to?");
-        for(String element : movementOptions){ //for loops are quite easy with lists enumerators
-            System.out.println(element);
-        }
-        BufferedReader userMovement = new BufferedReader(new InputStreamReader(System.in)); //personally prefer bufferedreader over scanner
-        String userChoice = userMovement.readLine(); //I feel buffered reader has more functionality, and I have more experience with it
-        // No loop/error message to ensure user picks one of the three choices because I intend to make an interface for this
-        //That would move it beyond the command line, and make user playability easier. For now the default is the classes home
-        if(movementOptions.contains(userChoice)){
-            System.out.println("You have chosen to move to " + userChoice);
-        }
-        return userChoice;
-
-
+    public void movement()  { //movement function, movement options are contained in enum
+        gamePlayField.setText("Where would you like to move to?" +"\r\n" + movementOptions.get(0) + "\r\n" + movementOptions.get(1) + "\r\n" + movementOptions.get(2));
+        userInput.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                location = userInput.getText();
+                locationEvents(location);
+            }
+        });
     }
     public void fight(List userAttributes, List creatureAttributes, Character userPlayer , Character evilCreature) {
         //this function simulates the fight. I made the monsters a bit strong, and wanted to add a random factor to the fight
@@ -183,12 +197,10 @@ public class Gameplay {
         return true;
         }
         public static StackPane populateSecondScreen() throws NullPointerException{
-        StackPane mainLayout = new StackPane();
         Text playerAttributes = new Text();
         playerAttributes.setText(userPlayer.getAttributesAsString());
         mainLayout.setAlignment(playerAttributes, Pos.TOP_LEFT);
-
-        mainLayout.getChildren().addAll(playerAttributes);
+        mainLayout.getChildren().add(playerAttributes);
         return(mainLayout);
       }
     }
