@@ -6,7 +6,7 @@ Each class will attempt to show a specific area of Java
 This class will run most of the code
 Heavily updated code to work with GUI
 We are getting there, I intend to finish this into a fully working text based game
-by next sunday at the latest*/
+by next sunday 5/9 at the latest*/
 
 
 
