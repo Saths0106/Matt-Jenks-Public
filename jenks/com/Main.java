@@ -8,6 +8,8 @@ otherwise dates are accurate for the specific day I wrote that code
 Important to note too - I work full time and I'm a full time college student.
 I am also doing this game without psuedocode or a flow chart, I just wanted to put something out there
 My apologies, I have been busy
+Edit 5/11/2021 - I had to buy a new computer, working on getting everything together. JavaFx apearently is not loaded into the openJDK, and is causing problems for me. 
+I will ofc upload directions if I need to for how to run this program, but I'm thinking of switching to a mobile platform where a game will be profitable anyway. 
 */
 
 
